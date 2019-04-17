@@ -87,3 +87,24 @@ class Fetcher:
         connection.commit()
         connection.close()
 
+class Query:
+    def __init__(self, the_ticker, the_time):
+        self.ticker = the_ticker
+        self.time = the_time
+
+    def Get_Datails(self):
+        DBName = "stocks.db"
+        connection = sqlite3.connect(DBName)
+        try:
+            c = connection.cursor()
+        except AssertionError as e:
+            print(e)
+            return
+
+        task = f'''SELECT *  
+                    FROM StockData 
+                    WHERE Time = '{self.time}' AND Ticker = '{self.ticker}';'''
+        c.execute(task)
+        
+        connection.commit()
+        connection.close()
