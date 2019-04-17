@@ -105,6 +105,10 @@ class Query:
                     FROM StockData 
                     WHERE Time = '{self.time}' AND Ticker = '{self.ticker}';'''
         c.execute(task)
+
+        data = c.fetchone()
+        print(data)    
+            
         
         connection.commit()
         connection.close()
