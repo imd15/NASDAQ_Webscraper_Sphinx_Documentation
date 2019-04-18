@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Welcome to CIS4930_Proj2’s documentation! &#8212; CIS4930_Proj2 1.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-CIS_4930_Project_2.stock">
+<span id="welcome-to-cis4930-proj2-s-documentation"></span><h1>Welcome to CIS4930_Proj2’s documentation!<a class="headerlink" href="#module-CIS_4930_Project_2.stock" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="stock-py">
+<h2>stock.py<a class="headerlink" href="#stock-py" title="Permalink to this headline">¶</a></h2>
+<p>Contains the class declarations and definitions for Tickers, Fetcher, and Query.</p>
+<dl class="class">
+<dt id="CIS_4930_Project_2.stock.Fetcher">
+<em class="property">class </em><code class="descclassname">CIS_4930_Project_2.stock.</code><code class="descname">Fetcher</code><span class="sig-paren">(</span><em>input_file</em><span class="sig-paren">)</span><a class="headerlink" href="#CIS_4930_Project_2.stock.Fetcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetcher class for stock.py this class takes all tickers, and stores the ticker info into a database</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>input_file</strong> – the name of the file that the tickers will be read from</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="CIS_4930_Project_2.stock.Fetcher.fetch_all_data">
+<code class="descname">fetch_all_data</code><span class="sig-paren">(</span><em>time_lim</em>, <em>database_name</em><span class="sig-paren">)</span><a class="headerlink" href="#CIS_4930_Project_2.stock.Fetcher.fetch_all_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>fetch_all_data function: fetches all of the data of tickers and stores into a specified database</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>time_lim</strong> – the amount of time that the function is going to run for</p></li>
+<li><p><strong>database_name</strong> – the name of the database that the fetcher function is going to write to</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="CIS_4930_Project_2.stock.Query">
+<em class="property">class </em><code class="descclassname">CIS_4930_Project_2.stock.</code><code class="descname">Query</code><span class="sig-paren">(</span><em>the_ticker</em>, <em>the_time</em>, <em>db_name</em><span class="sig-paren">)</span><a class="headerlink" href="#CIS_4930_Project_2.stock.Query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Queries the one row from the database that the given time and ticker correspond to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self.ticker</strong> – The ticker that will be queried in the database.</p></li>
+<li><p><strong>self.time</strong> – The time that will be queried in the database.</p></li>
+<li><p><strong>self.db_name</strong> – The database that will be queried.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="CIS_4930_Project_2.stock.Tickers">
+<em class="property">class </em><code class="descclassname">CIS_4930_Project_2.stock.</code><code class="descname">Tickers</code><span class="sig-paren">(</span><em>num_tickers</em>, <em>file_name</em><span class="sig-paren">)</span><a class="headerlink" href="#CIS_4930_Project_2.stock.Tickers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tickers Class pulls the Tickers from the URL that is used</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>num_tickers</strong> – number of tickers</p></li>
+<li><p><strong>file_name</strong> – the name of the file that the Class will write to (Default = tickers.txt)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="method">
+<dt id="CIS_4930_Project_2.stock.Tickers.save_tickers">
+<code class="descname">save_tickers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#CIS_4930_Project_2.stock.Tickers.save_tickers" title="Permalink to this definition">¶</a></dt>
+<dd><p>save_tickers function: This function stores all the tickers and outputs it to the specified file</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">CIS4930_Proj2</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Ian Dimitri, Kiel Peterson.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
