@@ -49,7 +49,8 @@ class Tickers:
         i = 0 #counter
         # baseStockUrl = "https://api.iextrading.com/1.0/stock"
         for curr in pure.splitlines(): #splits lines at new line
-            if i == self.numTickers:
+            if i == int(self.numTickers):
+                
                 break
             else:
                 try:
@@ -98,7 +99,7 @@ class Fetcher:
                 the name of the database that the fetcher function is going to write to
         """
         self.timeLimit = time_lim
-        self.DBname = db_name
+        self.DBname = database_name
         # Columns = ["Time", "Ticker", "Low", "High", "Open", "Close", "Price", "Volume"]
 
         connection = sqlite3.connect(self.DBname)
