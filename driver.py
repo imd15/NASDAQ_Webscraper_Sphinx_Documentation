@@ -4,6 +4,13 @@ from stock import Tickers, Fetcher, Query
 import argparse as ap
 
 if __name__ == "__main__":
+    """
+    driver.py
+    ====================================
+    The core module of the project. Parses the arguments and flags passed
+    in and calls the corresponding functions.
+    """
+
     #tick = Tickers(10, "tickers.txt")
     #tick.save_tickers()
     #Kiel = Fetcher("tickers.txt")

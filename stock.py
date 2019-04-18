@@ -3,12 +3,27 @@ import requests as r
 from time import strftime
 from iex import Stock
 
+"""
+    stock.py
+    ====================================
+    Contains the class declarations and definitions for Tickers, Fetcher, and Query.
+"""
+
 class Tickers:
     def __init__(self, num_tickers, file_name):
         self.numTickers = num_tickers
         self.fileName = file_name
 
     def save_tickers(self):
+         """
+            Gathers the first n tickers from the given URL and outputs them to a file.
+            Parameters
+            ----------
+            self.numTickers
+                The number of tickers to output to the file.
+            self.fileName
+                The name of the file to output the tickers to.
+        """
         tickerList = []
         pure = r.get("https://www.nasdaq.com/screening/companies-by-industry.aspx?exchange=NASDAQ&pagesize=150").text #get pure text from the website
         i = 0 #counter
@@ -40,6 +55,17 @@ class Fetcher:
         self.inputFile = input_file
 
     def fetch_all_data(self, time_lim, db_name):
+        """
+            Fetches the data for n seconds and outputs the information to a sqlite3 database.
+            Parameters
+            ----------
+            self.inputFile
+                The name of the file that the tickers are read from.
+            self.timeLimit
+                The number of seconds that the program fetch the information for.
+            self.DBname
+                The name of the database to insert the information to.
+        """
         self.timeLimit = time_lim
         self.DBname = db_name
         # Columns = ["Time", "Ticker", "Low", "High", "Open", "Close", "Price", "Volume"]
@@ -108,6 +134,17 @@ class Query:
         self.db_name = db_name
 
     def Get_Datails(self):
+        """
+            Queries the one row from the database that the given time and ticker correspond to.
+            Parameters
+            ----------
+            self.ticker
+                The ticker that will be queried in the database.
+            self.time
+                The time that will be queried in the database.
+            self.db_name
+                The database that will be queried.
+        """
         DBName = self.db_name
         connection = sqlite3.connect(DBName)
         try:
