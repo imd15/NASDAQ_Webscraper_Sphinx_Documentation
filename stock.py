@@ -1,4 +1,4 @@
-import sys, io, sqlite3, time
+import sys, io, sqlite3, time, json
 import requests as r
 from time import strftime
 from iex import Stock
@@ -36,40 +36,36 @@ class Tickers:
         file.close() #closes file
 
 class Fetcher:
-
-    #DBName = "stocks_now.db"
-    Columns = ["Time", "Ticker", "Low", "High", "Open", "Close", "Price", "Volume"]
-
     def __init__(self, input_file):
         self.inputFile = input_file
 
-    def fetch_all_data(self, time_lim, database_name):
+    def fetch_all_data(self, time_lim, db_name):
         self.timeLimit = time_lim
-        DBName = database_name
+        self.DBname = db_name
         # Columns = ["Time", "Ticker", "Low", "High", "Open", "Close", "Price", "Volume"]
-        
-        connection = sqlite3.connect(DBName)
+
+        connection = sqlite3.connect(self.DBname)
         try:
             c = connection.cursor()
         except AssertionError as e:
             print(e)
             return
-
-        task = '''CREATE TABLE IF NOT EXISTS StockData 
-                    (Time char(5), 
-                    Ticker varchar(10), 
+        # drop = "DROP TABLE IF EXISTS StockData"
+        task = '''CREATE TABLE IF NOT EXISTS StockData (
+                    Time none, 
+                    Ticker none, 
                     Low float, 
                     High float, 
                     Open float, 
                     Close float, 
                     Price float, 
-                    Volume float)'''
+                    Volume float);'''
+        # c.execute(drop)
         c.execute(task)
 
         tickerList = []
         with open(self.inputFile,'r') as info:
             for line in info:
-                print(line.strip())
                 tickerList.append(line.strip())
 
         startingTime = time.time()
@@ -77,12 +73,30 @@ class Fetcher:
 
         while time.time() < endingTime:
             strf_time = strftime("%H:%M")
-            '''
-                Implement logic for the getting of the stuff and shit yeh 
-            '''
-            
+            for ticker in tickerList:
+                Titles = ["symbol","latestPrice", "latestVolume","close","open","low","high"]
+                URL = f"https://ws-api.iextrading.com/1.0/stock/{ticker.strip()}/quote/"
+                pureText = r.get(URL).text
+                textToJSON = json.loads(pureText) # casts as dict
+                sqlList = [strftime("%H:%M")]
+                for x in Titles:
+                    sqlList.append(textToJSON[x])
+
+                task = f'''INSERT INTO StockData(Time, Ticker, Low, High, Open, Close, Price, Volume) 
+                        VALUES (
+                            '{sqlList[0]}',
+                            '{sqlList[1]}',
+                            '{sqlList[2]}',
+                            '{sqlList[3]}',
+                            '{sqlList[4]}',
+                            '{sqlList[5]}',
+                            '{sqlList[6]}',
+                            '{sqlList[7]}');'''
+                c.execute(task)
+
+            # pass until the next minute hits
             while strf_time == strftime("%H:%M") and time.time() < endingTime:
-                pass # pass until the next minute hits
+                pass 
 
         connection.commit()
         connection.close()
