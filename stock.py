@@ -14,7 +14,7 @@ class Tickers:
         i = 0 #counter
         # baseStockUrl = "https://api.iextrading.com/1.0/stock"
         for curr in pure.splitlines(): #splits lines at new line
-            if i > self.numTickers:
+            if i == self.numTickers:
                 break
             else:
                 try:
