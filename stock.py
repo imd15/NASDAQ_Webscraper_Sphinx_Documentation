@@ -9,6 +9,12 @@ import requests as r
 from time import strftime
 from iex import Stock
 
+"""
+    stock.py
+    ====================================
+    Contains the class declarations and definitions for Tickers, Fetcher, and Query.
+"""
+
 class Tickers:
     """
         Tickers Class pulls the Tickers from the URL that is used
@@ -92,10 +98,10 @@ class Fetcher:
                 the name of the database that the fetcher function is going to write to
         """
         self.timeLimit = time_lim
-        DBName = database_name
+        self.DBname = db_name
         # Columns = ["Time", "Ticker", "Low", "High", "Open", "Close", "Price", "Volume"]
-        
-        connection = sqlite3.connect(DBName)
+
+        connection = sqlite3.connect(self.DBname)
         try:
             c = connection.cursor()
         except AssertionError as e:
@@ -116,7 +122,6 @@ class Fetcher:
         tickerList = []
         with open(self.inputFile,'r') as info:
             for line in info:
-                print(line.strip())
                 tickerList.append(line.strip())
 
         startingTime = time.time()
@@ -126,7 +131,7 @@ class Fetcher:
             strf_time = strftime("%H:%M")
             
             while strf_time == strftime("%H:%M") and time.time() < endingTime:
-                pass # pass until the next minute hits
+                pass 
 
         connection.commit()
         connection.close()
