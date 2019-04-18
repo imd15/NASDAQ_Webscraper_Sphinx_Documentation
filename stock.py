@@ -37,15 +37,15 @@ class Tickers:
 
 class Fetcher:
 
-    DBName = "stocks_now.db"
+    #DBName = "stocks_now.db"
     Columns = ["Time", "Ticker", "Low", "High", "Open", "Close", "Price", "Volume"]
 
     def __init__(self, input_file):
         self.inputFile = input_file
 
-    def fetch_all_data(self, time_lim):
+    def fetch_all_data(self, time_lim, database_name):
         self.timeLimit = time_lim
-        DBName = "stocks.db"
+        DBName = database_name
         # Columns = ["Time", "Ticker", "Low", "High", "Open", "Close", "Price", "Volume"]
         
         connection = sqlite3.connect(DBName)
@@ -88,12 +88,13 @@ class Fetcher:
         connection.close()
 
 class Query:
-    def __init__(self, the_ticker, the_time):
+    def __init__(self, the_ticker, the_time, db_name):
         self.ticker = the_ticker
         self.time = the_time
+        self.db_name = db_name
 
     def Get_Datails(self):
-        DBName = "stocks.db"
+        DBName = self.db_name
         connection = sqlite3.connect(DBName)
         try:
             c = connection.cursor()
@@ -108,7 +109,6 @@ class Query:
 
         data = c.fetchone()
         print(data)    
-            
-        
+    
         connection.commit()
         connection.close()
