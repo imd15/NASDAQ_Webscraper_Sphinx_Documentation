@@ -17,7 +17,6 @@ from stock import Tickers, Fetcher, Query
 import argparse as ap
 from docopt import docopt
 
-
 if __name__ == "__main__":
     """
     driver.py
@@ -66,15 +65,23 @@ if __name__ == "__main__":
         time_count =  int(time_lim)
         database = dbname
         # print(f"\nfetcher_count = {fetcher_count}\ntime_count = {time_count}\ndatabase = {database}\n")
-        fetcher_call = Fetcher("tickers.txt")
-        fetcher_call.fetch_all_data(time_count,database)
+        fetcher_call = Fetcher("tickers.txt",time_count,database)
+        fetcher_call.fetch_all_data()
     
     elif operation == "Query":
         time_count = curr_time
         database = dbname
-        
         # print(f"time_count = {time_count}\ndatabase = {database}\nticker_name = {ticker_name}")
-
         #print(ticker_name)
         query_call = Query(ticker,time_count,database)
-        query_call.Get_Datails()
+
+        data = query_call.Get_Datails()
+        columns = ["Time", "Ticker", "Low", "High", "Open", "Close", "Price", "Volume"]
+
+        if data != None:
+            zipped = zip(columns, data)
+            for x, y in zipped:
+                print(f"{x}: {y}")
+        else:
+            print(f"Values ({query_call.ticker}, {query_call.time}) not in {query_call.db_name}")
+

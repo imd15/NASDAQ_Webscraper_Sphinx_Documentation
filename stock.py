@@ -33,10 +33,10 @@ class Tickers:
             =============
             Parameters
             ----------
-            num_tickers
-                number of tickers
-            file_name
-                the name of the file that the Class will write to (Default = tickers.txt)
+                num_tickers
+                    number of tickers
+                file_name
+                    the name of the file that the Class will write to (Default = tickers.txt)
         """
         self.numTickers = num_tickers
         self.fileName = file_name
@@ -44,12 +44,13 @@ class Tickers:
     def save_tickers(self):
         """
             Gathers the first n tickers from the given URL and outputs them to a file.
+            
             Parameters
             ----------
-            self.numTickers
-                The number of tickers to output to the file.
-            self.fileName
-                The name of the file to output the tickers to.
+                self.numTickers
+                    The number of tickers to output to the file.
+                self.fileName
+                    The name of the file to output the tickers to.
         """
         tickerList = []
         pure = r.get("https://www.nasdaq.com/screening/companies-by-industry.aspx?exchange=NASDAQ&pagesize=150").text #get pure text from the website
@@ -102,10 +103,10 @@ class Fetcher:
             
             Parameters
             -----------
-            time_lim
-                the amount of time that the function is going to run for
-            database_name
-                the name of the database that the fetcher function is going to write to
+                time_lim
+                    the amount of time that the function is going to run for
+                database_name
+                    the name of the database that the fetcher function is going to write to
         """
         # Columns = ["Time", "Ticker", "Low", "High", "Open", "Close", "Price", "Volume"]
 
@@ -188,12 +189,12 @@ class Query:
             Queries the one row from the database that the given time and ticker correspond to.
             Parameters
             ----------
-            self.ticker
-                The ticker that will be queried in the database.
-            self.time
-                The time that will be queried in the database.
-            self.db_name
-                The database that will be queried.
+                self.ticker
+                    The ticker that will be queried in the database.
+                self.time
+                    The time that will be queried in the database.
+                self.db_name
+                    The database that will be queried.
         """
         connection = sqlite3.connect(self.db_name)
         try:
