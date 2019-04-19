@@ -8,6 +8,7 @@ import sys, io, sqlite3, time
 import requests as r
 from time import strftime
 from iex import Stock
+import json
 
 """
     stock.py
@@ -42,7 +43,13 @@ class Tickers:
 
     def save_tickers(self):
         """
-            save_tickers function: This function stores all the tickers and outputs it to the specified file
+            Gathers the first n tickers from the given URL and outputs them to a file.
+            Parameters
+            ----------
+            self.numTickers
+                The number of tickers to output to the file.
+            self.fileName
+                The name of the file to output the tickers to.
         """
         tickerList = []
         pure = r.get("https://www.nasdaq.com/screening/companies-by-industry.aspx?exchange=NASDAQ&pagesize=150").text #get pure text from the website
@@ -84,10 +91,12 @@ class Fetcher:
     #DBName = "stocks_now.db"
     Columns = ["Time", "Ticker", "Low", "High", "Open", "Close", "Price", "Volume"]
 
-    def __init__(self, input_file):
+    def __init__(self, input_file, time_lim, db_name):
         self.inputFile = input_file
+        self.timeLimit = time_lim
+        self.DBname = db_name
 
-    def fetch_all_data(self, time_lim, database_name):
+    def fetch_all_data(self):
         """
             fetch_all_data function: fetches all of the data of tickers and stores into a specified database
             
@@ -98,8 +107,6 @@ class Fetcher:
             database_name
                 the name of the database that the fetcher function is going to write to
         """
-        self.timeLimit = time_lim
-        self.DBname = database_name
         # Columns = ["Time", "Ticker", "Low", "High", "Open", "Close", "Price", "Volume"]
 
         connection = sqlite3.connect(self.DBname)
@@ -130,9 +137,30 @@ class Fetcher:
 
         while time.time() < endingTime:
             strf_time = strftime("%H:%M")
-            
+            for ticker in tickerList:
+                Titles = ["symbol","latestPrice", "latestVolume","close","open","low","high"]
+                URL = f"https://ws-api.iextrading.com/1.0/stock/{ticker.strip()}/quote/"
+                pureText = r.get(URL).text
+                textToJSON = json.loads(pureText) # casts as dict
+                sqlList = [strftime("%H:%M")]
+                for x in Titles:
+                    sqlList.append(textToJSON[x])
+
+                task = f'''INSERT INTO StockData(Time, Ticker, Low, High, Open, Close, Price, Volume) 
+                        VALUES (
+                            '{sqlList[0]}',
+                            '{sqlList[1]}',
+                            '{sqlList[2]}',
+                            '{sqlList[3]}',
+                            '{sqlList[4]}',
+                            '{sqlList[5]}',
+                            '{sqlList[6]}',
+                            '{sqlList[7]}');'''
+                c.execute(task)
+
+            # pass until the next minute hits
             while strf_time == strftime("%H:%M") and time.time() < endingTime:
-                pass 
+                pass
 
         connection.commit()
         connection.close()
@@ -156,10 +184,18 @@ class Query:
         self.db_name = db_name
 
     def Get_Datails(self):
-
-
-        DBName = self.db_name
-        connection = sqlite3.connect(DBName)
+        """
+            Queries the one row from the database that the given time and ticker correspond to.
+            Parameters
+            ----------
+            self.ticker
+                The ticker that will be queried in the database.
+            self.time
+                The time that will be queried in the database.
+            self.db_name
+                The database that will be queried.
+        """
+        connection = sqlite3.connect(self.db_name)
         try:
             c = connection.cursor()
         except AssertionError as e:
@@ -171,8 +207,7 @@ class Query:
                     WHERE Time = '{self.time}' AND Ticker = '{self.ticker}';'''
         c.execute(task)
 
-        data = c.fetchone()
-        print(data)    
-    
+        data = c.fetchone()   
         connection.commit()
         connection.close()
+        return data
